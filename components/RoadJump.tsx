@@ -127,7 +127,7 @@ const SEAT = { z: -0.75, hips: 0.62, entry: -0.35, outside: 1.0 };
 // The light inside the auto: tint and power of the bulb under its roof, how far it carries (reach metres, falling off
 // by decay), where it hangs (y up, z back from the auto's centre, roof just under the ceiling) and the size of the
 // little pane it shines through.
-const CABIN = { tint: 0x3f9dff, power: 24, reach: 5, decay: 2, y: 1.3, z: -0.5, roof: 1.46, size: 0.34, halo: 0.75 };
+const CABIN = { tint: 0xffe9c4, power: 10, reach: 5, decay: 2, y: 1.3, z: -0.5, roof: 1.46, size: 0.34, halo: 0.75 };
 // The driver (the old man, shrunk by scale and posed seated), measured from auto.glb the same way: hips on the
 // front of the driver's seat (cushion top about 0.75 m) so his arms reach the handlebar grips (x either side) with the
 // elbows bent; back straight, leaning forward by lean radians; shins sloping forward by shin (run per metre down), so
@@ -930,7 +930,7 @@ export default function RoadJump() {
       auto = ground(model("auto").scene, AUTO.height); // faces +z as modelled, the way he walks
       auto.position.x = autoX;
       street.add(auto);
-      // The bulb autos run under their roof at night, in that cold blue every one of them seems to have. It rides
+      // The bulb autos run under their roof at night, here a warm cream white. It rides
       // with the auto, so it still lights the cabin once he is aboard and it pulls away; its falloff is kept short so
       // it washes the roof, the bench and the driver's back without spilling out onto the road.
       const cabin = new THREE.PointLight(CABIN.tint, CABIN.power, CABIN.reach, CABIN.decay);
@@ -940,11 +940,11 @@ export default function RoadJump() {
       // it so the tube still reads from down the street, the way the houses' windows do.
       const cabinPane = new THREE.Mesh(
         new THREE.PlaneGeometry(CABIN.size, CABIN.size * 0.45).rotateX(Math.PI / 2),
-        new THREE.MeshBasicMaterial({ color: CABIN.tint, fog: false }),
+        new THREE.MeshBasicMaterial({ color: new THREE.Color(CABIN.tint).multiplyScalar(0.6), fog: false }), // dimmed, a low bulb
       );
       cabinPane.position.set(0, CABIN.roof, CABIN.z);
       const cabinHalo = new THREE.Sprite(
-        new THREE.SpriteMaterial({ map: sparkTex, color: CABIN.tint, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false, fog: false }),
+        new THREE.SpriteMaterial({ map: sparkTex, color: CABIN.tint, opacity: 0.25, blending: THREE.AdditiveBlending, depthWrite: false, fog: false }),
       );
       cabinHalo.scale.setScalar(CABIN.halo);
       cabinHalo.position.copy(cabinPane.position);

@@ -314,29 +314,77 @@ export default function EventsStreet() {
         earthMat.map.needsUpdate = true;
       }
       // The ground rolls, and he walks on it: its height is sampled along the street once, here, and read back by
-      // lerp, so no ray is cast per frame.
-      const down = new THREE.Raycaster();
-      const fall = new THREE.Vector3(0, -1, 0);
+      // lerp, so nothing is measured per frame.
       const PROBE = { from: PATH.start - 0.4, to: STALLS[4].x + 0.8, steps: 64 };
       // He walks on the alley's flagstones where they are laid and on the bare fairground either side of them, so
-      // both are under the ray; the first thing it meets on the way down is what he stands on.
+      // both are measured; the highest of them under a point (below 12 m, as a ray down would first meet it) is the
+      // floor there.
       const floor = [groundGroup, find(fair, "ishitatami.001_Material.044_0")].filter(Boolean) as THREE.Object3D[];
-      const probe = (x: number, z: number, miss: number) => {
-        down.set(new THREE.Vector3(x * S, 20, z * S), fall);
-        const hit = down.intersectObjects(floor.length ? floor : [fair], true).find((h) => h.point.y < 12);
-        return hit ? hit.point.y : miss;
+      // The floor's height under each of pts (x, z in the model's units), or -Infinity where there is none. One pass
+      // over the floor's triangles serves every point: a ray per point tests the whole ground each time, which froze
+      // the page for many seconds. Only triangles across the points' strip of z are tested against them.
+      const heightsUnder = (pts: [number, number][]) => {
+        const top = new Float32Array(pts.length).fill(-Infinity);
+        const zs = pts.map(([, z]) => z * S);
+        const [zLo, zHi] = [Math.min(...zs), Math.max(...zs)];
+        const [a, b, c] = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+        for (const root of floor.length ? floor : [fair])
+          root.traverse((o) => {
+            const mesh = o as THREE.Mesh;
+            if (!mesh.isMesh) return;
+            const pos = mesh.geometry.attributes.position;
+            const idx = mesh.geometry.index;
+            const n = idx ? idx.count : pos.count;
+            for (let i = 0; i < n; i += 3) {
+              a.fromBufferAttribute(pos, idx ? idx.getX(i) : i).applyMatrix4(mesh.matrixWorld);
+              b.fromBufferAttribute(pos, idx ? idx.getX(i + 1) : i + 1).applyMatrix4(mesh.matrixWorld);
+              c.fromBufferAttribute(pos, idx ? idx.getX(i + 2) : i + 2).applyMatrix4(mesh.matrixWorld);
+              if (Math.max(a.z, b.z, c.z) < zLo || Math.min(a.z, b.z, c.z) > zHi) continue;
+              const d = (b.z - c.z) * (a.x - c.x) + (c.x - b.x) * (a.z - c.z);
+              if (d === 0) continue; // edge-on from above
+              for (let k = 0; k < pts.length; k++) {
+                const x = pts[k][0] * S;
+                const z = zs[k];
+                const u = ((b.z - c.z) * (x - c.x) + (c.x - b.x) * (z - c.z)) / d;
+                const v = ((c.z - a.z) * (x - c.x) + (a.x - c.x) * (z - c.z)) / d;
+                if (u < 0 || v < 0 || u + v > 1) continue;
+                const y = u * a.y + v * b.y + (1 - u - v) * c.y;
+                if (y < 12 && y > top[k]) top[k] = y;
+              }
+            }
+          });
+        return top;
       };
-      const heights = new Float32Array(PROBE.steps + 1);
-      for (let i = 0; i <= PROBE.steps; i++) heights[i] = probe(PROBE.from + ((PROBE.to - PROBE.from) * i) / PROBE.steps, PATH.z, -0.13 * S);
-      // The fairground is modelled as an island, and its ground rolls: the earth is laid under the lowest of it that
-      // a visitor can see, so the two never fight for the same pixels, and runs off into the fog.
+      // The street's paving is laid stone by stone, and between the stones the floor under it is the ground, a hand
+      // lower: so each sample takes the highest within two either side (filling the gaps), then the mean of those
+      // round it, and neither he nor the camera bobs over the joints.
+      const raw = heightsUnder(Array.from({ length: PROBE.steps + 1 }, (_, i): [number, number] => [PROBE.from + ((PROBE.to - PROBE.from) * i) / PROBE.steps, PATH.z]));
+      const near = (a: Float32Array | number[], i: number) => Array.from(a.slice(Math.max(0, i - 2), i + 3));
+      const filled = Array.from(raw, (_, i) => Math.max(...near(raw, i)));
+      const heights = filled.map((_, i) => {
+        const hits = near(filled, i).filter(Number.isFinite);
+        return hits.length ? hits.reduce((n, y) => n + y, 0) / hits.length : -0.13 * S;
+      });
+      // The fairground is modelled as an island, and its ground rolls: the earth is laid under the lowest of it, so
+      // the two never fight for the same pixels, and runs off into the fog.
       const earth = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), earthMat);
       earth.rotation.x = -Math.PI / 2;
       earth.receiveShadow = true;
       {
+        // the lowest point of its upward faces: its sides run on down out of sight, under the earth
         let low = Infinity;
-        for (let i = -6; i <= 6; i++) for (let j = -5; j <= 5; j++) low = Math.min(low, probe(i * 0.8, j * 0.8, 0));
-        earth.position.y = low - 0.9;
+        const [v, up] = [new THREE.Vector3(), new THREE.Vector3()];
+        groundGroup?.traverse((o) => {
+          const mesh = o as THREE.Mesh;
+          if (!mesh.isMesh) return;
+          const { position: pos, normal } = mesh.geometry.attributes;
+          const turn = new THREE.Matrix3().getNormalMatrix(mesh.matrixWorld);
+          for (let i = 0; i < pos.count; i++) {
+            if (normal && up.fromBufferAttribute(normal, i).applyMatrix3(turn).normalize().y < 0.5) continue;
+            low = Math.min(low, v.fromBufferAttribute(pos, i).applyMatrix4(mesh.matrixWorld).y);
+          }
+        });
+        earth.position.y = (low === Infinity ? 0 : low) - 0.9;
       }
       scene.add(earth);
 
@@ -492,8 +540,9 @@ export default function EventsStreet() {
         fontReady.then(() => {
           if (dead) return;
           const canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
+          const up = Math.max(1, 1024 / img.width); // the model's textures are small; the lettering is drawn sharp
+          canvas.width = img.width * up;
+          canvas.height = img.height * up;
           const g = canvas.getContext("2d")!;
           g.drawImage(img, 0, 0, canvas.width, canvas.height);
           paint(g, canvas.width);
@@ -567,7 +616,7 @@ export default function EventsStreet() {
         }
         scene.add(page, mask);
         const standZ = PATH.z + side * PATH.stand;
-        const stand = new THREE.Vector3((x + PATH.aside) * S, probe(x + PATH.aside, standZ, 0), standZ * S);
+        const stand = new THREE.Vector3((x + PATH.aside) * S, groundAt((x + PATH.aside) * S), standZ * S);
         return {
           centre,
           normal: new THREE.Vector3(0, 0, -side), // out of the curtain, into the alley
@@ -730,6 +779,13 @@ export default function EventsStreet() {
         renderer.render(scene, camera);
         css.render(scene, camera);
       };
+      // Every material's shaders, compiled before the first frame and off the main thread where the browser can
+      // (KHR_parallel_shader_compile): else the first frame compiles them all at once and the page freezes.
+      await renderer.compileAsync(scene, camera);
+      if (dead) {
+        renderer.dispose();
+        return;
+      }
       const io = new IntersectionObserver(([e]) => {
         then = performance.now();
         renderer.setAnimationLoop(e.isIntersecting ? frame : null);

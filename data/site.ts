@@ -13,7 +13,7 @@ export const site = {
 
 // The events page's mela: the whole carnival in one model. Models are cached for a day without asking
 // (next.config.ts), so bump v whenever the file changes, or visitors keep the old model under the new code.
-export const melaModel = "/models/mela.glb?v=1";
+export const melaModel = "/models/mela.glb?v=5";
 
 // Top nav links: same five, same order, as the menu on meraz.iitbhilai.ac.in
 export const navLinks = [
