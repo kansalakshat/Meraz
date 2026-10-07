@@ -163,7 +163,12 @@ const LANES = [
 const WALKWAY = { from: -60, len: 130 }; // pedestrians loop over this z range; the ends are lost in the haze
 // Stall on the right-hand footpath (right as seen from the chase camera, i.e. -x) level with the barricade, its back at
 // back (in front of the environment's wall), clear of the walking line. The keeper is a bust, behind the counter.
-const STALL = { height: 2.6, keeper: 0.95, keeperBase: 0.75, back: -9.9 };
+// lamp: the stall's bulb, hung out over the counter (out metres in front of it, up metres above the kerb) so it lights
+// the keeper, the counter and its banner from the road side; tint, power, reach and decay as for CABIN.
+const STALL = {
+  height: 2.6, keeper: 0.95, keeperBase: 0.75, back: -9.9,
+  lamp: { tint: 0xffd49a, power: 30, reach: 8, decay: 2, out: 0.5, up: 2.1, halo: 0.9 },
+};
 
 export default function RoadJump() {
   const pin = useRef<HTMLElement>(null);
@@ -926,6 +931,16 @@ export default function RoadJump() {
       keeper.rotation.y = Math.PI / 2; // faces +z as modelled; turn him to the road (+x)
       keeper.position.set(stall.position.x - depth * 0.2, kerbTop + STALL.keeperBase, stall.position.z);
       street.add(keeper);
+      // The stall's bulb (see STALL.lamp), with a soft halo so it reads from down the street like the street lights.
+      const { lamp: sl } = STALL;
+      const stallLamp = new THREE.PointLight(sl.tint, sl.power, sl.reach, sl.decay);
+      stallLamp.position.set(stall.position.x + depth / 2 + sl.out, kerbTop + sl.up, stallZ);
+      const stallHalo = new THREE.Sprite(
+        new THREE.SpriteMaterial({ map: sparkTex, color: sl.tint, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false }),
+      );
+      stallHalo.scale.setScalar(sl.halo);
+      stallHalo.position.copy(stallLamp.position);
+      street.add(stallLamp, stallHalo);
 
       auto = ground(model("auto").scene, AUTO.height); // faces +z as modelled, the way he walks
       auto.position.x = autoX;
