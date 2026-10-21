@@ -985,7 +985,7 @@ export default function EventsStreet() {
       </section>
       {walls.map((w, i) => createPortal(<StallPage cat={eventCategories[i]} tone={tone(eventCategories[i])} compact={compact} onOpen={show} />, w, String(i)))}
       {/* Narrow and portrait screens: a stall's page in full, over the scene (the width of a portrait screen, which on a
-          phone in desktop mode is 980px of layout squeezed onto a phone). */}
+          phone in desktop mode is 980px of layout squeezed onto a phone); on a phone on its side, the blurb beside the tickets. */}
       <dialog
         ref={dialog}
         data-lenis-prevent
@@ -994,12 +994,12 @@ export default function EventsStreet() {
           getLenis()?.start();
         }}
         aria-label={open?.heading}
-        className={`m-auto max-h-[88dvh] w-[min(94vw,40rem)] overflow-y-auto overflow-x-hidden portrait:w-[94vw] border-4 border-ink p-4 pt-14 backdrop:bg-ink/70 sm:p-5 sm:pt-14 ${open ? tone(open) : ""}`}
+        className={`m-auto max-h-[88dvh] w-[min(94vw,40rem)] overflow-y-auto overflow-x-hidden border-4 border-ink p-4 pt-14 backdrop:bg-ink/70 sm:p-5 sm:pt-14 portrait:w-[94vw] short:max-h-[94dvh] short:w-[94vw] short:p-3 short:pr-16 ${open ? tone(open) : ""}`}
       >
         <button type="button" onClick={() => dialog.current?.close()} aria-label="Close" className="btn absolute right-3 top-3 size-11 justify-center bg-cream !p-0 text-ink">
           <X weight="bold" aria-hidden="true" />
         </button>
-        {open && <CategoryContent cat={open} />}
+        {open && <CategoryContent cat={open} split />}
       </dialog>
     </div>
   );

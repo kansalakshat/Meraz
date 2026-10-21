@@ -67,17 +67,20 @@ function TitleContent() {
   );
 }
 
-export function CategoryContent({ cat }: { cat: EventCategory }) {
+// split: on a short landscape screen (see the short variant in app/globals.css) the blurb sits beside the tickets.
+export function CategoryContent({ cat, split = false }: { cat: EventCategory; split?: boolean }) {
   return (
-    <div className="mx-auto w-full max-w-4xl">
-      <h2 className="painted font-display text-[clamp(2rem,5vw,3.75rem)] leading-none text-cream">{cat.heading}</h2>
-      <p className="mt-3 max-w-2xl text-base sm:text-lg">{cat.description}</p>
-      <Carousel items={cat.subEvents} category={cat.title} />
+    <div className={`mx-auto w-full max-w-4xl ${split ? "short:grid short:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] short:items-center short:gap-4" : ""}`}>
+      <div>
+        <h2 className={`painted font-display text-[clamp(2rem,5vw,3.75rem)] leading-none text-cream ${split ? "short:text-3xl" : ""}`}>{cat.heading}</h2>
+        <p className={`mt-3 max-w-2xl text-base sm:text-lg ${split ? "short:text-sm" : ""}`}>{cat.description}</p>
+      </div>
+      <Carousel items={cat.subEvents} category={cat.title} split={split} />
     </div>
   );
 }
 
-export function Carousel({ items, category }: { items: SubEvent[]; category: string }) {
+export function Carousel({ items, category, split = false }: { items: SubEvent[]; category: string; split?: boolean }) {
   const [index, setIndex] = useState(0);
   const n = items.length;
   const go = (d: number) => setIndex((i) => (i + d + n) % n);
@@ -87,21 +90,23 @@ export function Carousel({ items, category }: { items: SubEvent[]; category: str
   };
 
   return (
-    <div className="mt-6 sm:mt-8" role="region" aria-roledescription="carousel" aria-label={`${category} events`} onKeyDown={onKey}>
-      {/* phones: the ticket takes the full width, its arrows on a row of their own below it */}
-      <div className="relative flex flex-wrap items-center justify-center gap-2 sm:flex-nowrap">
+    // beside the blurb, clipped: the side tickets would otherwise swing out over it
+    <div className={`mt-6 sm:mt-8 ${split ? "short:-m-2 short:overflow-hidden short:p-2" : ""}`} role="region" aria-roledescription="carousel" aria-label={`${category} events`} onKeyDown={onKey}>
+      {/* phones: the ticket takes the full width, its arrows on a row of their own below it (but beside it, beside the
+          blurb: below, they would fall out of the short dialog) */}
+      <div className={`relative flex flex-wrap items-center justify-center gap-2 sm:flex-nowrap ${split ? "short:flex-nowrap" : ""}`}>
         {n > 1 && (
           <button type="button" onClick={() => go(-1)} aria-label="Previous event" className="btn relative z-10 size-11 shrink-0 justify-center bg-cream !p-0 text-ink">
             <CaretLeft weight="bold" aria-hidden="true" />
           </button>
         )}
-        <div className="relative order-first grid basis-full [perspective:1200px] sm:order-none sm:flex-1 sm:basis-auto">
+        <div className={`relative order-first grid basis-full [perspective:1200px] sm:order-none sm:flex-1 sm:basis-auto ${split ? "short:order-none short:flex-1 short:basis-auto" : ""}`}>
           {items.map((ev, k) => {
             const off = (k - index + n) % n;
             const pos = off === 0 ? "active" : off === 1 ? "right" : off === n - 1 ? "left" : "hide";
             return (
               <article key={ev.title} className="carousel-card" data-pos={pos} aria-hidden={pos !== "active"} inert={pos !== "active"}>
-                <Ticket ev={ev} category={category} serial={k} />
+                <Ticket ev={ev} category={category} serial={k} split={split} />
               </article>
             );
           })}
@@ -112,8 +117,9 @@ export function Carousel({ items, category }: { items: SubEvent[]; category: str
           </button>
         )}
       </div>
+      {/* beside the blurb there is no height for the dots: the arrows do */}
       {n > 1 && (
-        <div className="mt-5 flex flex-wrap justify-center gap-1.5">
+        <div className={`mt-5 flex flex-wrap justify-center gap-1.5 ${split ? "short:hidden" : ""}`}>
           {items.map((ev, k) => (
             <button
               key={ev.title}
@@ -135,9 +141,11 @@ export function Carousel({ items, category }: { items: SubEvent[]; category: str
   );
 }
 
-export function Ticket({ ev, category, serial }: { ev: SubEvent; category: string; serial: number }) {
+// A long description scrolls inside the ticket rather than being cut off. split: beside the blurb (see CategoryContent),
+// the ticket may take the dialog's height.
+export function Ticket({ ev, category, serial, split = false }: { ev: SubEvent; category: string; serial: number; split?: boolean }) {
   return (
-    <div className="flex h-full max-h-[52vh] overflow-hidden rounded-md border-[3px] border-ink bg-cream text-ink shadow-[6px_6px_0_var(--color-ink)]">
+    <div className={`flex h-full max-h-[52vh] overflow-hidden rounded-md border-[3px] border-ink bg-cream text-ink shadow-[6px_6px_0_var(--color-ink)] ${split ? "short:max-h-[calc(94dvh-2rem)]" : ""}`}>
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-center justify-between gap-3 bg-ink px-3 py-2 font-mono text-xs font-bold text-turmeric sm:px-4 shrink-0">
           <span className="min-w-0 truncate">{category}</span>
@@ -146,7 +154,7 @@ export function Ticket({ ev, category, serial }: { ev: SubEvent; category: strin
         <div className="flex flex-1 flex-col p-3 sm:p-4 min-h-0 overflow-hidden">
           <h3 className="font-poster text-lg leading-tight [overflow-wrap:anywhere] sm:text-2xl shrink-0">{ev.title}</h3>
           {ev.stall && <p className="mt-1 shrink-0 font-mono text-[11px] font-bold uppercase tracking-widest text-vermillion-deep sm:text-xs">{ev.stall}</p>}
-          <p className="mt-1 text-xs leading-relaxed sm:text-sm flex-1 min-h-0 overflow-hidden text-ellipsis">{ev.desc}</p>
+          <p className="mt-1 text-xs leading-relaxed sm:text-sm flex-1 min-h-0 overflow-y-auto">{ev.desc}</p>
           <div className="mt-2 pt-2 shrink-0">
             <RegisterArea ev={ev} category={category} />
           </div>

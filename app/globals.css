@@ -6,6 +6,9 @@
 /* Contact page booth: sign and meter beside the phone only on wide screens; phones and portrait tablets stack them
    above it. Keep the ratio in step with STACKED in components/PhoneDial.tsx. */
 @custom-variant booth (@media (width >= 48rem) and (min-aspect-ratio: 6/5));
+/* A phone turned on its side: too short to stack an event category's blurb above its tickets, so the events dialog
+   sets them side by side. */
+@custom-variant short (@media (orientation: landscape) and (height < 32rem));
 @custom-variant booth-stack {
   @media (width < 48rem) {
     @slot;
