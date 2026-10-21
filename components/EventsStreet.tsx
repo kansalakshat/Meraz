@@ -75,7 +75,9 @@ const SHADOW = { span: 15, bias: -0.0006, normalBias: 0.03, map: 2048, small: 10
 // Facing a page: it fills fill.w of the screen's width, or fill.h of its height below the nav bar, whichever is
 // smaller. A narrow screen would put the camera out in the street, so it stops max metres out and widens its lens.
 const HOLD = { fill: { w: 0.86, h: 0.78 }, max: 3 };
-const COMPACT = 720; // pages narrower than this on screen (phones, portrait tablets) show a summary that opens a dialog
+// Pages narrower than this on screen (phones, portrait tablets) show a summary that opens a dialog; so do pages on any
+// portrait screen (a phone in desktop mode, a big tablet), where the wall's page is a short strip the tickets overflow.
+const COMPACT = 720;
 // The two rides turn for ever on the clips they came with: the giant wheel (12.5 s) and the merry-go-round (30 s).
 const RIDES = [
   { group: "wheel.001", clip: "Take 001" },
@@ -821,7 +823,7 @@ export default function EventsStreet() {
           const dist = (s.h * h) / (2 * ph * tan);
           s.hold = dist <= HOLD.max ? { dist, fov: CHASE.fov } : { dist: HOLD.max, fov: 2 * THREE.MathUtils.radToDeg(Math.atan((s.h * h) / (2 * ph * HOLD.max))) };
         }
-        setCompact(pw < COMPACT);
+        setCompact(pw < COMPACT || h > w);
         camera.updateProjectionMatrix();
         draw(shown);
       };
@@ -982,7 +984,8 @@ export default function EventsStreet() {
         </nav>
       </section>
       {walls.map((w, i) => createPortal(<StallPage cat={eventCategories[i]} tone={tone(eventCategories[i])} compact={compact} onOpen={show} />, w, String(i)))}
-      {/* Narrow screens: a stall's page in full, over the scene. */}
+      {/* Narrow and portrait screens: a stall's page in full, over the scene (the width of a portrait screen, which on a
+          phone in desktop mode is 980px of layout squeezed onto a phone). */}
       <dialog
         ref={dialog}
         data-lenis-prevent
@@ -991,7 +994,7 @@ export default function EventsStreet() {
           getLenis()?.start();
         }}
         aria-label={open?.heading}
-        className={`m-auto max-h-[88dvh] w-[min(94vw,40rem)] overflow-y-auto overflow-x-hidden border-4 border-ink p-4 pt-14 backdrop:bg-ink/70 sm:p-5 sm:pt-14 ${open ? tone(open) : ""}`}
+        className={`m-auto max-h-[88dvh] w-[min(94vw,40rem)] overflow-y-auto overflow-x-hidden portrait:w-[94vw] border-4 border-ink p-4 pt-14 backdrop:bg-ink/70 sm:p-5 sm:pt-14 ${open ? tone(open) : ""}`}
       >
         <button type="button" onClick={() => dialog.current?.close()} aria-label="Close" className="btn absolute right-3 top-3 size-11 justify-center bg-cream !p-0 text-ink">
           <X weight="bold" aria-hidden="true" />
@@ -1003,16 +1006,16 @@ export default function EventsStreet() {
 }
 
 // A category's page, as it hangs on its stall's back wall: the panel's heading and blurb beside its carousel of
-// tickets; on a small screen a summary that opens the full page.
+// tickets; on a small or portrait screen a summary that opens the full page.
 function StallPage({ cat, tone, compact, onOpen }: { cat: EventCategory; tone: string; compact: boolean; onOpen: (c: EventCategory) => void }) {
   return (
-    <div className={`relative flex h-full w-full overflow-hidden border-4 border-ink ${tone}`}>
+    <div className={`@container relative flex h-full w-full overflow-hidden border-4 border-ink ${tone}`}>
       <div className="halftone pointer-events-none absolute inset-0 text-ink/10" aria-hidden="true" />
       {compact ? (
-        <div className="relative flex flex-1 flex-col items-center justify-center gap-2 p-3 text-center">
-          <p className="font-deva text-lg leading-none">{cat.hindi}</p>
-          <h2 className="painted font-display text-xl leading-none text-cream">{cat.heading}</h2>
-          <button type="button" onClick={() => onOpen(cat)} className="btn bg-cream !px-3 !py-1.5 !text-sm text-ink">
+        <div className="relative flex flex-1 flex-col items-center justify-center gap-2 p-3 text-center @xl:gap-4">
+          <p className="font-deva text-lg leading-none @xl:text-3xl">{cat.hindi}</p>
+          <h2 className="painted font-display text-xl leading-none text-cream @xl:text-5xl">{cat.heading}</h2>
+          <button type="button" onClick={() => onOpen(cat)} className="btn bg-cream !px-3 !py-1.5 !text-sm text-ink @xl:!px-5 @xl:!py-2.5 @xl:!text-xl">
             See {cat.subEvents.length} events
           </button>
         </div>
