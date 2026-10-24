@@ -8,6 +8,7 @@ import NavBar from "@/components/NavBar";
 import ScrollFx from "@/components/ScrollFx";
 import ScrollHint from "@/components/ScrollHint";
 import MusicPlayer from "@/components/MusicPlayer";
+import AskBot from "@/components/AskBot";
 
 // Headings: Luminari where the visitor has it (macOS ships it; it can't be served), else Almendra, its nearest free cut.
 const almendra = Almendra({ weight: ["400", "700"], subsets: ["latin"], variable: "--font-almendra", display: "swap" });
@@ -46,6 +47,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ScrollFx />
           <ScrollHint />
           <MusicPlayer />
+          {/* bottom-left chat bubble; hides itself while the loading screen is up */}
+          <AskBot />
         </TransitionProvider>
       </body>
     </html>
