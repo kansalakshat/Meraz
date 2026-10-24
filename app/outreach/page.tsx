@@ -227,7 +227,7 @@ export default function OutreachPage() {
       </section>
 
       {/* Partnered influencers */}
-      <section id="influencers" aria-labelledby="influencers-title" className="relative scroll-mt-24 overflow-hidden py-4">
+      <section id="influencers" aria-labelledby="influencers-title" className="relative scroll-mt-24 overflow-hidden  py-4">
         <Motif of="influencers" />
         <img src="/outreach/influencer.webp" alt="Partnered Influencers" width={1200} height="400" loading="lazy" className="mx-auto mt-0 w-full max-w-lg" />
         <Container className="relative">

@@ -9,16 +9,19 @@ import type { Pass } from "@/data/content";
 
 const BUY_NOW_URL = "https://meraz.ksverse.in/";
 
-// Original reference values (2 passes per row)
-const ROW = "calc((100cqw - 1rem) * 0.29846)"; // height
-const OPEN = "((100cqw - 1rem) * 0.8242)"; // open ticket width
-const STUB = "((100cqw - 1rem) * 0.17578)"; // stub width
+// Original reference values (2 passes per row) — taller tickets so content fits
+const ROW = "calc((100cqw - 1rem) * 0.35)";    // was 0.29846
+const OPEN = "((100cqw - 1rem) * 0.8242)";     // original width
+const STUB = "((100cqw - 1rem) * 0.17578)";    // original width
 
 function Details({ p }: { p: Pass }) {
   // The pronite pass titles end "... with ARTIST & ARTIST."; the artists get a bold line each so they read from far.
   const m = p.title.match(/^(.*?\bwith)\s+([A-Z0-9.\- &]+?)\.?$/);
   return (
     <>
+      <p className="font-mono text-xs font-bold uppercase tracking-[.3em] text-[#7a061d] pb-3">
+        Meraz 7.0 · 30 October to 1 November, 2026
+      </p>
       {m ? (
         <p className="font-poster text-[1.25em] leading-tight">
           {m[1]}

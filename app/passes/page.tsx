@@ -61,6 +61,10 @@ export default function PassesPage() {
           </div>
         </div>
 
+        <p className="mt-6 text-center font-mono text-xs font-bold uppercase tracking-[.3em] text-rani-deep">
+          Meraz 7.0 · 30 October to 1 November, 2026
+        </p>
+
         {/* side by side under the notice on smaller screens; on large ones the row dissolves (contents) and each is
             placed out beside the title and notice */}
         <div className="mx-auto mt-14 flex max-w-3xl items-end justify-between gap-2 lg:contents">
