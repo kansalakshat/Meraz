@@ -119,15 +119,17 @@ function InstaLogo({ id }: { id: string }) {
 }
 
 export default function OutreachPage() {
-  const tel = ambassadors.contact.phone.replace(/\s/g, "");
+  const tel = ambassadors.contact.phone.replace(/\\s/g, "");
   return (
     <div className="bg-paper text-ink">
       <KiteHero />
+      
       <Talkies />
 
       {/* Campus ambassadors */}
-      <section id="ambassadors" aria-labelledby="ambassadors-title" className="relative scroll-mt-24 overflow-hidden py-16">
+      <section id="ambassadors" aria-labelledby="ambassadors-title" className="relative scroll-mt-24 overflow-hidden py-4">
         <Motif of="ambassadors" />
+        <img src="/outreach/AMBAASSDOR.webp" alt="Campus Ambassadors" width={1200} height="400" loading="lazy" className="mx-auto mt-0 w-full max-w-lg" />
         <Container className="relative">
           <Heading id="ambassadors-title" hindi="हमारे कैंपस एम्बेसडर">
             Our Campus Ambassadors
@@ -189,8 +191,9 @@ export default function OutreachPage() {
       </section>
 
       {/* Partnered cafés */}
-      <section id="cafes" aria-labelledby="cafes-title" className="relative scroll-mt-24 overflow-hidden border-y-4 border-ink bg-cream py-16">
+      <section id="cafes" aria-labelledby="cafes-title" className="relative scroll-mt-24 overflow-hidden border-y-4 border-ink bg-cream py-4">
         <Motif of="cafes" />
+        <img src="/outreach/Catering.webp" alt="Partnered Cafes" width={1200} height="400" loading="lazy" className="mx-auto mt-0 w-full max-w-lg" />
         <Container className="relative">
           <Heading id="cafes-title" hindi="साथी कैफ़े">
             Partnered Cafes
@@ -224,8 +227,9 @@ export default function OutreachPage() {
       </section>
 
       {/* Partnered influencers */}
-      <section id="influencers" aria-labelledby="influencers-title" className="relative scroll-mt-24 overflow-hidden py-16">
+      <section id="influencers" aria-labelledby="influencers-title" className="relative scroll-mt-24 overflow-hidden py-4">
         <Motif of="influencers" />
+        <img src="/outreach/influencer.webp" alt="Partnered Influencers" width={1200} height="400" loading="lazy" className="mx-auto mt-0 w-full max-w-lg" />
         <Container className="relative">
           <Heading id="influencers-title" hindi="साथी क्रिएटर">
             Partnered Influencers

@@ -184,11 +184,6 @@ function RegisterArea({ ev, category }: { ev: SubEvent; category: string }) {
       <div className="flex flex-wrap gap-4">
         <div>
           {link(ev.registerUrlIIT, "Register")}
-          <p className="mt-2 font-mono text-[11px] font-bold uppercase">For IIT Bhilai students</p>
-        </div>
-        <div>
-          {link(ev.registerUrlNonIIT, "Register")}
-          <p className="mt-2 font-mono text-[11px] font-bold uppercase">For non-IIT Bhilai students</p>
         </div>
       </div>
     );
