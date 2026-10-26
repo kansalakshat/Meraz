@@ -63,7 +63,7 @@ export const passes: Pass[] = [
   },
   {
     name: "Pronites Pass Day 2",
-    title: "Full Day-2 Access + Day 2 Pronite: Enjoy all MERAZ events on Day 2 as an audience member, including the much-awaited Day 2 Pronite with JYOTIRMAYEE & D.J. PRERAK.",
+    title: "Full Day-2 Access + Day 2 Pronite: Enjoy all MERAZ events on Day 2 as an audience member, including the much-awaited Day 2 Pronite with JYOTIRMAYEE & BAND.",
     discountCategories: [
       {
         type: "Pricing",
@@ -74,7 +74,7 @@ export const passes: Pass[] = [
   },
   {
     name: "Pronites Pass Day 3",
-    title: "Full Day-3 Access + Day 3 Pronite: Experience all MERAZ events on Day 3 as an audience member, along with access to the spectacular Day 3 Pronite with NAKASH AZIZ & QAFILA- THE BAND.",
+    title: "Full Day-3 Access + Day 3 Pronite: Experience all MERAZ events on Day 3 as an audience member, along with access to the spectacular Day 3 Pronite with NAKASH AZIZ & QAFILA- THE BAND & D.J. PRERAK.",
     discountCategories: [
       {
         type: "Pricing",

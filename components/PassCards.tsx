@@ -9,8 +9,8 @@ import type { Pass } from "@/data/content";
 
 const BUY_NOW_URL = "https://meraz.ksverse.in/";
 
-// Original reference values (2 passes per row)
-const ROW = "calc((100cqw - 1rem) * 0.29846)"; // height
+// Original reference values (2 passes per row) — slightly taller so content fits
+const ROW = "calc((100cqw - 1rem) * 0.32)"; // height
 const OPEN = "((100cqw - 1rem) * 0.8242)"; // open ticket width
 const STUB = "((100cqw - 1rem) * 0.17578)"; // stub width
 
