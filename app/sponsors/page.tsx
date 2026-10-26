@@ -45,7 +45,7 @@ function Frame(sponsor: { name: string; logo: string; dark?: boolean }) {
           down the window, teal below; the logo and name set in the window's box */}
       <div
         className="absolute inset-0 [mask:url(/sponsors/stage/window.png)_0_0/100%_100%]"
-        style={{ background: `linear-gradient(${dark ? "#1a1a1a" : "#fff"} ${SPLIT}, #0f8b8d ${SPLIT})` }}
+        style={{ background: `linear-gradient(#fff ${SPLIT}, #0f8b8d ${SPLIT})` }}
       >
         <div className="absolute flex flex-col" style={{ left: pc(WINDOW.left), top: pc(WINDOW.top), width: pc(WINDOW.width), height: pc(WINDOW.height) }}>
           <div className="flex h-[55.7%] items-center justify-center px-[9%] pt-[20%]">

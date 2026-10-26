@@ -27,7 +27,7 @@ export const sponsorTiers: SponsorTier[] = [
     tier: "Co-Title Sponsor",
     hindi: "सह-प्रायोजक",
     level: "title",
-    sponsors: [{ name: "To be announced", logo: "/sponsors/coming-soon.svg", dark: false }],
+    sponsors: [{ name: "To be announced", logo: "/sponsors/coming-soon.svg", dark: false}],
   },
   {
     tier: "Associate Sponsor",
