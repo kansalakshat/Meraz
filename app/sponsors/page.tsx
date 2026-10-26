@@ -14,7 +14,7 @@ export const metadata: Metadata = { title: "Sponsors", description: "The partner
 const WINDOW = { left: 70 / 330, top: 100 / 447, width: 191 / 330, height: 290 / 447 };
 const pc = (v: number) => `${v * 100}%`;
 const SPLIT = pc(WINDOW.top + 0.557 * WINDOW.height); // the white's edge, down the whole frame
-const size = { title: "w-[min(48vw,20rem)]", platinum: "w-[min(36vw,13.5rem)]", gold: "w-[min(36vw,12rem)]" };
+const size = { title: "w-[min(48vw,20rem)]", platinum: "w-[min(36vw,13.5rem)]", gold: "w-[min(36vw,12rem)]", associate: "w-[min(36vw,12rem)]", "co-sponsor": "w-[min(36vw,12rem)]", partner: "w-[min(30vw,10rem)]" };
 
 // The name's size, in cqw of the frame: the largest (up to SBI's in the design) at which its words, wrapped greedily,
 // fit the teal half of the window: lines of about 48cqw, about 28cqw tall in all. Bebas runs about 0.42em a letter.

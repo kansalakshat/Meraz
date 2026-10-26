@@ -14,38 +14,44 @@ export const about = {
 
 // false: every sponsor frame shows the "coming soon" image and caption instead of the logo and name (the logos below are
 // kept for when the Meraz 7.0 sponsors are confirmed; set true then).
-export const SPONSORS_REVEALED = false;
-export type SponsorTier = { tier: string; hindi: string; level: "title" | "platinum" | "gold"; sponsors: { name: string; logo: string; dark?: boolean }[] }; // dark: a light logo, shown on a dark ground
+export const SPONSORS_REVEALED = true;
+export type SponsorTier = { tier: string; hindi: string; level: "title" | "platinum" | "gold" | "associate" | "co-sponsor" | "partner"; sponsors: { name: string; logo: string; dark?: boolean }[] }; // dark: a light logo, shown on a dark ground
 export const sponsorTiers: SponsorTier[] = [
-  { tier: "Title Sponsor", hindi: "मुख्य प्रायोजक", level: "title", sponsors: [{ name: "SBI", logo: "/sponsors/sbi.jpg" }] },
-  { tier: "Co-Title Sponsor", hindi: "सह-प्रायोजक", level: "title", sponsors: [{ name: "CBI", logo: "/sponsors/cbi.png" }] },
   {
-    tier: "Platinum Sponsors",
-    hindi: "प्लैटिनम",
-    level: "platinum",
+    tier: "Title Sponsor",
+    hindi: "मुख्य प्रायोजक",
+    level: "title",
+    sponsors: [{ name: "To be announced", logo: "/sponsors/coming-soon.svg", dark: false }],
+  },
+  {
+    tier: "Co-Title Sponsor",
+    hindi: "सह-प्रायोजक",
+    level: "title",
+    sponsors: [{ name: "To be announced", logo: "/sponsors/coming-soon.svg", dark: false }],
+  },
+  {
+    tier: "Associate Sponsor",
+    hindi: "एसोसिएट प्रायोजक",
+    level: "associate",
     sponsors: [
-      { name: "PNB", logo: "/sponsors/pnb.webp" },
-      { name: "Steel Intech", logo: "/sponsors/steel-intech.jpg" },
-      { name: "Riveria", logo: "/sponsors/riveria.jpg" },
-      { name: "Blued Studio", logo: "/sponsors/blued-studio.webp", dark: true },
-      { name: "Carro Rental", logo: "/sponsors/carro-rental.png" },
+      { name: "SAIL (BSP)", logo: "/sponsors/sail.jpg", dark: true },
+      { name: "CG Samvad", logo: "/sponsors/cg-samvad.jpg", dark: true },
     ],
   },
   {
-    tier: "Gold Sponsors",
-    hindi: "गोल्ड",
-    level: "gold",
+    tier: "Co-Sponsor",
+    hindi: "को-प्रायोजक",
+    level: "co-sponsor",
     sponsors: [
-      { name: "Union Bank of India", logo: "/sponsors/union-bank.jpg" },
-      { name: "Bhatia", logo: "/sponsors/bhatia.jpg" },
-      { name: "Herbalife International", logo: "/sponsors/herbalife.jpg" },
-      { name: "Festee", logo: "/sponsors/festee.png" },
-      { name: "Manish Sports", logo: "/sponsors/manish-sports.png" },
-      { name: "Safexpress", logo: "/sponsors/safexpress.png" },
-      { name: "CDO Securities", logo: "/sponsors/cdo-securities.jpg" },
-      { name: "Swiggy", logo: "/sponsors/swiggy.jpg" },
+      { name: "BOB (Bank of Baroda)", logo: "/sponsors/bob.png", dark: true },
     ],
   },
+  // {
+  //   tier: "Partners",
+  //   hindi: "पार्टनर्स",
+  //   level: "partner",
+  //   sponsors: [],
+  // },
 ];
 
 export type Pass = { name: string; title: string; discountCategories: { type: string; discounts: string[] }[]; formLink: string };
