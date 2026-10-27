@@ -48,8 +48,8 @@ function Frame(sponsor: { name: string; logo: string; dark?: boolean }) {
         style={{ background: `linear-gradient(#fff ${SPLIT}, #0f8b8d ${SPLIT})` }}
       >
         <div className="absolute flex flex-col" style={{ left: pc(WINDOW.left), top: pc(WINDOW.top), width: pc(WINDOW.width), height: pc(WINDOW.height) }}>
-          <div className="flex h-[55.7%] items-center justify-center px-[9%] pt-[20%]">
-            <img src={logo} alt={`${name} logo`} loading="lazy" className="max-h-[82%] max-w-full object-contain" />
+          <div className="flex h-[55.7%] items-center justify-center px-[6%] pt-[10%]">
+            <img src={logo} alt={`${name} logo`} loading="lazy" className="max-h-[90%] max-w-full object-contain" />
           </div>
           <figcaption
             className="grid grow place-items-center px-[6%] pb-[16%] text-center font-bebas leading-[.95] text-black"

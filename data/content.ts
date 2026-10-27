@@ -46,6 +46,15 @@ export const sponsorTiers: SponsorTier[] = [
       { name: "BOB (Bank of Baroda)", logo: "/sponsors/bob.png", dark: true },
     ],
   },
+  {
+    tier: "Media Partners",
+    hindi: "मीडिया पार्टनर्स",
+    level: "partner",
+    sponsors: [
+      { name: "News24", logo: "/sponsors/News24 MPCG Logo.png", dark: false },
+      { name: "Lalluram", logo: "/sponsors/Lalluram Logo (1).png", dark: false },
+    ],
+  },
   // {
   //   tier: "Partners",
   //   hindi: "पार्टनर्स",

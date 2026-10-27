@@ -165,8 +165,8 @@ export const eventCategories: EventCategory[] = [
         "registerUrlIIT": "https://docs.google.com/forms/d/e/1FAIpQLSeR2fMq4Qd2fzUDvs4JN1x9vslLr-w4aNgKjDKuwDBwjHjWnA/viewform?usp=sharing&ouid=110638439702340357486",
       },
       {
-        "title": "Car Drift",
-        "desc": "RC car drifting competition. Test your control and precision as you drift through challenging courses.",
+        "title": "Cad Rift",
+        "desc": "CAD design competition. Test your modeling skills and creativity as you design innovative solutions through challenging design problems.",
         "registerUrlIIT": "https://docs.google.com/forms/d/e/1FAIpQLSeTVcli85tKS4GYVsUAC9rGWVlCGMIHWnkRozpzGWzUH6pgMg/viewform?usp=sharing&ouid=111708333119112713425",
       },
       {
