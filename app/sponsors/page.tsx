@@ -21,21 +21,38 @@ const pc = (v: number) => `${v * 100}%`;
 const SPLIT = pc(WINDOW.top + 0.557 * WINDOW.height); // the white's edge, down the whole frame
 const size = { title: "w-[min(48vw,20rem)]", platinum: "w-[min(36vw,13.5rem)]", gold: "w-[min(36vw,12rem)]", associate: "w-[min(36vw,12rem)]", technology: "w-[min(36vw,12rem)]", "co-sponsor": "w-[min(36vw,12rem)]", partner: "w-[min(30vw,10rem)]" };
 
+// The names are set in the display font (font-bebas is it: Almendra, or Luminari on a Mac). Almendra's letters'
+// widths in em, measured, each rounded up to its group's widest; anything else counted wide.
+const EM: [string, number][] = [
+  [" .", 0.21],
+  ["fijlt()-IJ1", 0.34],
+  ["crsz7", 0.41],
+  ["e234569LS", 0.47],
+  ["abdgkopqvx08CEFPTZ", 0.52],
+  ["hnuyGY", 0.56],
+  ["ABDKOQRV&", 0.62],
+  ["HNUXw", 0.73],
+  ["mMW", 0.91],
+];
+const em = (text: string) => [...text].reduce((w, ch) => w + (EM.find(([chars]) => chars.includes(ch))?.[1] ?? 0.62), 0);
+
 // The name's size, in cqw of the frame: the largest (up to SBI's in the design) at which its words, wrapped greedily,
-// fit the teal half of the window: lines of about 48cqw, about 28cqw tall in all. Bebas runs about 0.42em a letter.
+// fit the teal half of the window: lines of 46cqw (the caption padded in to that: a margin for Luminari, a little
+// wider), about 28cqw tall in all.
 function nameSize(name: string) {
-  const words = name.split(" ");
+  const words = name.split(" ").map(em);
+  const space = em(" ");
   for (let s = 22; s > 6; s -= 0.5) {
-    const per = 48 / (0.42 * s); // letters a line holds
+    const line = 46 / s; // the em a line holds
     let lines = 1;
     let used = 0;
     let fits = true;
     for (const w of words) {
-      if (w.length > per) fits = false;
-      if (used && used + 1 + w.length > per) {
+      if (w > line) fits = false;
+      if (used && used + space + w > line) {
         lines++;
-        used = w.length;
-      } else used += (used ? 1 : 0) + w.length;
+        used = w;
+      } else used += (used ? space : 0) + w;
     }
     if (fits && lines * 0.95 * s <= 28) return s;
   }
@@ -57,7 +74,7 @@ function Frame(sponsor: { name: string; logo: string; dark?: boolean }) {
             <img src={logo} alt={`${name} logo`} loading="lazy" className="max-h-[90%] max-w-full object-contain" />
           </div>
           <figcaption
-            className="grid grow place-items-center px-[6%] pb-[16%] text-center font-bebas leading-[.95] text-black"
+            className="grid grow place-items-center px-[10%] pb-[16%] text-center font-bebas leading-[.95] text-black"
             style={{ fontSize: `${nameSize(name)}cqw` }}
           >
             {name}

@@ -27,7 +27,7 @@ export const sponsorTiers: SponsorTier[] = [
     tier: "Co-Title Sponsor",
     hindi: "सह-प्रायोजक",
     level: "title",
-    sponsors: [{ name: "CBOI (Central Bank of India)", logo: "/sponsors/cbi.png", dark: false }],
+    sponsors: [{ name: "CBI (Central Bank of India)", logo: "/sponsors/cbi.png", dark: false }],
   },
   {
     tier: "Associate Sponsor",
@@ -35,7 +35,7 @@ export const sponsorTiers: SponsorTier[] = [
     level: "associate",
     sponsors: [
       { name: "Chhattisgarh Samwad", logo: "/sponsors/cg-samwad.webp", dark: true },
-      { name: "SAIL (BSP)", logo: "/sponsors/sail-bsp.webp", dark: true },
+      { name: "SAIL (BSP)", logo: "/sponsors/sail.jpg", dark: true },
     ],
   },
   {
