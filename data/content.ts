@@ -21,13 +21,13 @@ export const sponsorTiers: SponsorTier[] = [
     tier: "Title Sponsor",
     hindi: "मुख्य प्रायोजक",
     level: "title",
-    sponsors: [{ name: "To be announced", logo: "/sponsors/coming-soon.svg", dark: false }],
+    sponsors: [{ name: "SBI", logo: "/sponsors/sbi.jpg", dark: false }],
   },
   {
     tier: "Co-Title Sponsor",
     hindi: "सह-प्रायोजक",
     level: "title",
-    sponsors: [{ name: "To be announced", logo: "/sponsors/coming-soon.svg", dark: false}],
+    sponsors: [{ name: "CBOI (Central Bank of India)", logo: "/sponsors/cbi.png", dark: false }],
   },
   {
     tier: "Associate Sponsor",

@@ -426,8 +426,10 @@ export const eventCategories: EventCategory[] = [
     "description": "Where ideas meet industry, develop innovations, pitch solutions, and turn concepts into real-world impact.",
      "subEvents": [
        {
-        "title": "Steel InTech Industrial Innovation Challenge",
-        "desc": "Apply engineering insight to solve real industrial and materials-based problems from Steel InTech.",
+        "title": "Deal or No Deal",
+        "desc": "Think you can spot a real startup from a fake one? Hear a quick pitch, vote DEAL (real) or NO DEAL (fake), and collect as many good deals as you can. Top scorers advance from qualifiers to the semi-final and final to win a share of ₹15,000.",
+        "stall": "📅 1st Nov | 📍 L201",
+        "registerUrlIIT": "https://forms.gle/nm3yHRVw5BaQ8VJe6",
       }
      ]
       },
@@ -439,12 +441,14 @@ export const eventCategories: EventCategory[] = [
     "description": "Where innovation meets implementation, build solutions, pitch disruptions, and transform finance into impact.",
     "subEvents": [
        {
-        "title": "TradeX",
-        "desc": "Ready to test your instincts? TradeX brings you an all-India live trading simulation where you can buy and sell stocks in real-time as per live Indian market data! Build, manage, and grow your virtual ₹10L portfolio in the live market arena.",
+        "title": "SBI FinTech Quiz",
+        "desc": "Get ready for the National-Level FinTech Quiz, sponsored by State Bank of India (SBI)! Test your financial knowledge, analytical thinking, and problem-solving skills while competing for exciting prizes. 🏆",
+        "registerUrlIIT": "https://docs.google.com/forms/d/e/1FAIpQLSfeh9A5FrZqkXndvT6qbB9ywXafKlpivjoW0eirH_axSyxiLQ/viewform?usp=sharing&ouid=101155524144615055225",
       },
        {
         "title": "Nivesh Paheli",
-        "desc": "An interactive treasure hunt with a financial twist, aimed at making finance learning exciting and accessible. Participants solve a sequence of finance-based clues and puzzles to reach the final treasure.",
+        "desc": "Think you can follow the money? 💰 Nivesh Paheli is back: a finance-themed treasure hunt where teams crack finance clues and challenges to race towards the final treasure! 🏆 Put your financial knowledge, logic, analytical thinking and teamwork to the test, whether you're new to finance or already follow the markets.",
+        "registerUrlIIT": "https://docs.google.com/forms/d/e/1FAIpQLSdoE8VoySwvHuxj4K3J5BETra2Yuu2Owy_1IOW55FPRta1UIQ/viewform",
       }
     ]
       }
