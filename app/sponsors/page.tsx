@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { Kathputli, Mandala, Petals, Tassel } from "@/components/SponsorsArt";
+import OutreachSection from "@/components/OutreachSection";
+import SponsorsTabs from "@/components/SponsorsTabs";
 import { sponsorTiers, SPONSORS_REVEALED } from "@/data/content";
 
-export const metadata: Metadata = { title: "Sponsors", description: "The partners powering Meraz." };
+export const metadata: Metadata = {
+  title: "Sponsors",
+  description: "The sponsors and partners powering Meraz 7.0, and its outreach: campus ambassadors, partnered cafés and influencers.",
+};
 
 // The Canva design (SPONSORS, exported as SPONSORS.zip at the project root), cut into public/sponsors/stage: its top
 // (the toran, the carved pillars and bells, the Ganesh pair with the title) and its bottom (the elephants on the pink
@@ -14,7 +19,7 @@ export const metadata: Metadata = { title: "Sponsors", description: "The partner
 const WINDOW = { left: 70 / 330, top: 100 / 447, width: 191 / 330, height: 290 / 447 };
 const pc = (v: number) => `${v * 100}%`;
 const SPLIT = pc(WINDOW.top + 0.557 * WINDOW.height); // the white's edge, down the whole frame
-const size = { title: "w-[min(48vw,20rem)]", platinum: "w-[min(36vw,13.5rem)]", gold: "w-[min(36vw,12rem)]", associate: "w-[min(36vw,12rem)]", "co-sponsor": "w-[min(36vw,12rem)]", partner: "w-[min(30vw,10rem)]" };
+const size = { title: "w-[min(48vw,20rem)]", platinum: "w-[min(36vw,13.5rem)]", gold: "w-[min(36vw,12rem)]", associate: "w-[min(36vw,12rem)]", technology: "w-[min(36vw,12rem)]", "co-sponsor": "w-[min(36vw,12rem)]", partner: "w-[min(30vw,10rem)]" };
 
 // The name's size, in cqw of the frame: the largest (up to SBI's in the design) at which its words, wrapped greedily,
 // fit the teal half of the window: lines of about 48cqw, about 28cqw tall in all. Bebas runs about 0.42em a letter.
@@ -87,10 +92,15 @@ function Sparkle({ fill, className }: { fill: string; className: string }) {
   );
 }
 
+// The page's two tabs (components/SponsorsTabs): the sponsors, and Outreach (components/OutreachSection).
 export default function SponsorsPage() {
+  return <SponsorsTabs sponsors={<Sponsors />} outreach={<OutreachSection />} />;
+}
+
+function Sponsors() {
   const [title, coTitle, ...rest] = sponsorTiers;
   return (
-    <div className="bg-[#0f8b8d] pt-[4.4rem]">
+    <div className="bg-[#0f8b8d]">
       <h1 className="sr-only">Sponsors: the visionaries behind the reverie</h1>
       {/* the title: on a laptop the band whole across the width, as in the design; on a phone scaled up past the
           screen's sides so its lettering reads, the far ends cropped. Shown unfaded, down to the tips of the trunks. */}

@@ -1,15 +1,9 @@
-import type { Metadata } from "next";
 import { ArrowSquareOut, DownloadSimple, MagnifyingGlass, Phone } from "@phosphor-icons/react/ssr";
 import { CafeFront, KiteHero, Motif, ReelPhone, Talkies } from "@/components/OutreachArt";
 import { Container } from "@/components/ui";
 import { outreach } from "@/data/content";
 
-export const metadata: Metadata = {
-  title: "Outreach",
-  description: "Meraz 7.0 campus ambassadors, partnered cafés and partnered influencers, with each programme's rulebook.",
-};
-
-// The kites over the rooftops and the picture palace's film posters (components/OutreachArt.tsx), then three
+// The sponsors page's Outreach tab (app/sponsors/page.tsx). The kites over the rooftops and the picture palace's film posters (components/OutreachArt.tsx), then three
 // sections, each closing on its programme's rulebook: the campus ambassadors (with the referral perks and the outreach
 // lead to call), the partnered cafés, and the partnered influencers. The lists fill in from data/content.ts.
 const { ambassadors, cafes, influencers } = outreach;
@@ -118,7 +112,7 @@ function InstaLogo({ id }: { id: string }) {
   );
 }
 
-export default function OutreachPage() {
+export default function OutreachSection() {
   const tel = ambassadors.contact.phone.replace(/\\s/g, "");
   return (
     <div className="bg-paper text-ink">

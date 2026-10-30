@@ -112,10 +112,10 @@ function Rooftops({ id, className }: { id: string; className: string }) {
 
 export function KiteHero() {
   return (
-    <section className="relative overflow-hidden border-b-4 border-ink bg-teal pt-24 sm:pt-28">
+    <section className="relative overflow-hidden border-b-4 border-ink bg-teal pt-8 sm:pt-12">
       <div aria-hidden="true" className="halftone absolute inset-0 text-cream/15" />
       {/* the sun */}
-      <div aria-hidden="true" className="absolute -right-16 top-16 size-48 rounded-full border-4 border-ink bg-turmeric sm:right-10 sm:size-64" />
+      <div aria-hidden="true" className="absolute -right-16 top-4 size-48 rounded-full border-4 border-ink bg-turmeric sm:right-10 sm:size-64" />
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
         <p lang="hi" className="painted font-deva text-3xl text-cream sm:text-4xl">
           जनसंपर्क

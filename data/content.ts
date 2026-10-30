@@ -15,13 +15,13 @@ export const about = {
 // false: every sponsor frame shows the "coming soon" image and caption instead of the logo and name (the logos below are
 // kept for when the Meraz 7.0 sponsors are confirmed; set true then).
 export const SPONSORS_REVEALED = true;
-export type SponsorTier = { tier: string; hindi: string; level: "title" | "platinum" | "gold" | "associate" | "co-sponsor" | "partner"; sponsors: { name: string; logo: string; dark?: boolean }[] }; // dark: a light logo, shown on a dark ground
+export type SponsorTier = { tier: string; hindi: string; level: "title" | "platinum" | "gold" | "associate" | "technology" | "co-sponsor" | "partner"; sponsors: { name: string; logo: string; dark?: boolean }[] }; // dark: a light logo, shown on a dark ground
 export const sponsorTiers: SponsorTier[] = [
   {
     tier: "Title Sponsor",
     hindi: "मुख्य प्रायोजक",
     level: "title",
-    sponsors: [{ name: "SBI", logo: "/sponsors/sbi.jpg", dark: false }],
+    sponsors: [{ name: "SBI", logo: "/sponsors/sbi.webp", dark: false }],
   },
   {
     tier: "Co-Title Sponsor",
@@ -34,9 +34,15 @@ export const sponsorTiers: SponsorTier[] = [
     hindi: "एसोसिएट प्रायोजक",
     level: "associate",
     sponsors: [
-      { name: "SAIL (BSP)", logo: "/sponsors/sail.jpg", dark: true },
-      { name: "CG Samvad", logo: "/sponsors/cg-samvad.jpg", dark: true },
+      { name: "Chhattisgarh Samwad", logo: "/sponsors/cg-samwad.webp", dark: true },
+      { name: "SAIL (BSP)", logo: "/sponsors/sail-bsp.webp", dark: true },
     ],
+  },
+  {
+    tier: "Technology Sponsor",
+    hindi: "तकनीकी प्रायोजक",
+    level: "technology",
+    sponsors: [{ name: "IBITF", logo: "/sponsors/ibitf.webp", dark: false }],
   },
   {
     tier: "Co-Sponsor",
@@ -44,23 +50,26 @@ export const sponsorTiers: SponsorTier[] = [
     level: "co-sponsor",
     sponsors: [
       { name: "BOB (Bank of Baroda)", logo: "/sponsors/bob.png", dark: true },
+      { name: "Tethys Chem", logo: "/sponsors/tethys-chem.webp", dark: false },
     ],
   },
   {
-    tier: "Media Partners",
-    hindi: "मीडिया पार्टनर्स",
+    // every partner together, whatever they partner in (festive, travel, food, news...)
+    tier: "Partners",
+    hindi: "पार्टनर्स",
     level: "partner",
     sponsors: [
+      { name: "JRNY Entertainment", logo: "/sponsors/jrny.webp", dark: false },
+      { name: "Carro Rental", logo: "/sponsors/carro-rental.webp", dark: false },
+      { name: "Amul", logo: "/sponsors/amul.webp", dark: false },
+      { name: "Swiggy", logo: "/sponsors/swiggy.webp", dark: false },
+      { name: "Wild Stone", logo: "/sponsors/wild-stone.webp", dark: false },
       { name: "News24", logo: "/sponsors/News24 MPCG Logo.png", dark: false },
       { name: "Lalluram", logo: "/sponsors/Lalluram Logo (1).png", dark: false },
+      { name: "KS Verse", logo: "/sponsors/ks-verse.webp", dark: false },
+      // Blued Studios and Delhivery: to add once their logos are in the Drive folder
     ],
   },
-  // {
-  //   tier: "Partners",
-  //   hindi: "पार्टनर्स",
-  //   level: "partner",
-  //   sponsors: [],
-  // },
 ];
 
 export type Pass = { name: string; title: string; discountCategories: { type: string; discounts: string[] }[]; formLink: string };
